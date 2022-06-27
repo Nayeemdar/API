@@ -67,3 +67,123 @@ csvtojson().fromFile(data-sheet.csv).then(source => {
          }
      });
 });
+
+
+
+const polk= require('polka');
+polk()
+  .get('/create', (req, res) => {
+    res.end(`It works`);
+  })
+  .listen(5000, err => {
+    if (err) throw err;
+    console.log(`> localhost:5000`);
+  });
+
+//Create operation
+
+const polk = require('polka');
+const { MongoClient } = require("mongodb");
+
+polk()
+  .get('/create', (req, res) => {
+    const cl = new MongoClient("mongodb://localhost:5000");
+    async function run() {
+      try {
+        await cl.connect();
+        const dbs = client.db("user","account","policy");
+       
+
+        const rest = await coll.insertOne({"MaXWell"});
+        res.end(JSON.stringify(rest));
+      } catch (ex) {
+        console.log("Error: " + ex);
+      } finally {
+        await cl.close();
+      }
+    }
+    run().catch(console.dir);
+  })
+  .listen(5000, err => {
+    if (err) throw err;
+    console.log(`> localhost:5000`);
+  });
+
+//Retrieve data
+
+.get('/retrieve', (req, res) => {
+    const cl = new MongoClient("mongodb://localhost:5000");
+    async function run() { 
+
+      try {
+        await cl.connect();
+        const dbs= client.db("user");
+        const coll = dbs.collection("account");
+
+        const cur = coll.find({}, {});
+
+        let items = [];
+        await cur.forEach(function(doc){
+          items.push(doc);
+        });
+        res.end(JSON.stringify(items));
+      } catch (err){
+        console.warn("ERROR: " + err);
+        if (errCallback) errCallback(err);
+      } finally {
+        await cl.close();
+      }
+    }
+    run().catch(console.dir);
+  })
+
+
+//Updata data
+
+.get('/update', (req, res) => {
+    const cl = new MongoClient("mongodb://localhost:5000");
+    async function run() {
+      try {
+        await cl.connect();
+        const dbs = client.db("user");
+        const coll = dbs.collection("account");
+
+        const updateDocument = {
+          $set: {
+            user:
+              "Maxwell",
+          },
+        };
+
+        const rst = await coll.updateOne({}, updateDocument, {}); 
+        res.end("Updated: " + rst.modifiedCount);
+      } catch (ex) {
+        errCallback(ex);
+      } finally {
+        await cl.close();
+      }
+    }
+    run().catch(console.dir);
+  })
+
+
+//Deleting Data
+
+.get('/delete', (req, res) => {
+    const cl = new MongoClient("mongodb://localhost:5000");
+    async function run() {
+      try {
+        await cl.connect();
+        const dbs = cl.db("intro");
+        const coll = dbs.collection("quotes");
+        const qry = { };
+        const rst = await coll.deleteOne(qry);
+        if (rst.deletedCount === 1) {
+          res.end("One document deleted.");
+        } else {
+          res.end("No document was deleted.");
+        }
+      } finally {
+        await cl.close();
+      }
+    }
