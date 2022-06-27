@@ -24,3 +24,6 @@ step 9 : At last, Run the index.js file using the following command:  node index
 
 ![db](https://user-images.githubusercontent.com/49945053/175867793-e3be9aa7-24bd-42c3-867f-c39498bfb293.png)
 
+
+For CURD operations Install npm install mongodb polka --save
+Now code for Create , Update , Read and Delete data 
